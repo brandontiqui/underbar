@@ -112,6 +112,15 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniqs = [];
+
+    _.each(array, function(item) {
+      if (_.indexOf(uniqs, item) === -1) {
+        uniqs.push(item);
+      }
+    });
+
+    return uniqs;
   };
 
 
