@@ -229,6 +229,20 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (iterator === undefined) {
+      return _.contains(collection, true);
+    }
+    else {
+      var result = false;
+
+      _.each(collection, function(item) {
+        if (iterator(item)) {
+          result = true;
+        }
+      });
+
+    return result;
+    }
   };
 
 
