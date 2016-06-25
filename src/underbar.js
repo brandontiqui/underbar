@@ -311,7 +311,7 @@
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -329,6 +329,17 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var argumentsSeen = [];
+    var results = [];
+
+    return function() {
+      if (argumentsSeen.length === 0) {
+        argumentsSeen.push(arguments);
+        results.push(func.apply(this, arguments));
+        return results[0];
+      }
+      
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -352,6 +363,7 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    
   };
 
 
