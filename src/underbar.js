@@ -223,7 +223,7 @@
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
-  _.some = function(collection, iterator) {
+  _.some = (collection, iterator) => {
     // TIP: There's a very clever way to re-use every() here.
     if (iterator === undefined) {
       return _.contains(collection, true);
