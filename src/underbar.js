@@ -325,16 +325,31 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = func => {
-    var argumentsSeen = [];
-    var results = [];
+    var argumentsSeen = {}; // argument: result as key: value
 
     return function() {
-      if (argumentsSeen.length === 0) {
-        argumentsSeen.push(arguments);
-        results.push(func.apply(this, arguments));
-        return results[0];
+      var args = [];
+      for (var i = 0; i < arguments.length; i++) {
+        args.push(arguments[i]);
       }
       
+      // distinguish between an array and a list of arguments
+      if (Array.isArray(arguments[0])) {
+        args.push('a');
+      }
+
+      var argString = args.join();
+
+      // not seen
+      if (!(argString in argumentsSeen)) {
+        var result = func.apply(this, arguments);
+        argumentsSeen[argString] = result;
+        return result;
+      }
+      // seen
+      else {  
+        return argumentsSeen[argString];
+      }
     }
   };
 
