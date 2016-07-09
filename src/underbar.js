@@ -188,20 +188,14 @@
   // Determine whether all of the elements match a truth test.
   _.every = (collection, iterator) => {
     // TIP: Try re-using reduce() here.
-    if (iterator === undefined) {
-      return !_.contains(collection, false);
-    }
-    else {
-      var result = true;
+    var iterator = iterator || _.identity; // identity if user doesn't pass iterator in
 
-      _.each(collection, function(item) {
-        if (!iterator(item)) {
-          result = false;
-        }
-      });
-
-    return result;
-    }
+    return _.reduce(collection, function(passed, item) {
+      if (!passed) {
+        return false;
+      }
+      return Boolean(iterator(item)); // cast result to boolean
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
