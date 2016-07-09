@@ -232,7 +232,7 @@
   _.extend = (obj, ...theArgs) => {
     for (var item of theArgs) {
       for (var key in item) {
-        obj[key] = item[key]
+        obj[key] = item[key];
       }
     }
 
