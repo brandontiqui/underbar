@@ -293,33 +293,26 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = func => {
-    var argumentsSeen = {}; // argument: result as key: value
+  _.memoize = function(func) {
+    var argumentsSeen = {};
 
     return function() {
-      var args = [];
-      for (var i = 0; i < arguments.length; i++) {
-        args.push(arguments[i]);
+      var argArray = Array.prototype.slice.call(arguments);
+
+      // differentiate arrays
+      if (Array.isArray(arguments[0])) {
+        argArray.push('a');
+      }
+
+      // argArray to string
+      var argString = argArray.join();
+
+      if (argumentsSeen[argString] === undefined) {
+        argumentsSeen[argString] = func.apply(this, arguments);
       }
       
-      // distinguish between an array and a list of arguments
-      if (Array.isArray(arguments[0])) {
-        args.push('a');
-      }
-
-      var argString = args.join();
-
-      // not seen
-      if (!(argString in argumentsSeen)) {
-        var result = func.apply(this, arguments);
-        argumentsSeen[argString] = result;
-        return result;
-      }
-      // seen
-      else {  
-        return argumentsSeen[argString];
-      }
-    }
+      return argumentsSeen[argString];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
