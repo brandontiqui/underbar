@@ -201,21 +201,13 @@
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = (collection, iterator) => {
-    // TIP: There's a very clever way to re-use every() here.
-    if (iterator === undefined) {
-      return _.contains(collection, true);
-    }
-    else {
-      var result = false;
+    // TIP: There's a very clever way to re-use every() here. 
+    var iterator = iterator || _.identity; // identity if user doesn't pass iterator in
 
-      _.each(collection, function(item) {
-        if (iterator(item)) {
-          result = true;
-        }
-      });
-
-    return result;
-    }
+    // everything does not fail the truth test means at least some passed
+    return !_.every(collection, function(item) {
+      return !iterator(item);
+    });   
   };
 
 
